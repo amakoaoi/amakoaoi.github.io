@@ -1,5 +1,5 @@
 <template>
-    <div class="deck-card" :class="{ upfront: faceUp }" @click="faceUp = !faceUp">
+    <div class="deck-card" :class="{ upfront: faceUp }">
         <div class="card-inner">
             <div class="front">
                 <svg viewBox="0 0 100 140">
@@ -201,16 +201,16 @@ export default {
 
 <style lang="scss" scoped>
 .deck-card {
-    $ratio: calc(200px / 280px);
-    $card-width: 200px;
-    $card-height: calc($card-width / $ratio);
+    position: relative;
     perspective: 2000px;
-    width: $card-width;
-    height: $card-height;
-    margin: 20px;
+    width: 100%;
+    padding-top: 140%;
+    user-select: none;
 
     .card-inner {
-        position: relative;
+        position: absolute;
+        top: 0;
+        left: 0;
         transform-style: preserve-3d;
         transform: rotateY(180deg);
         width: 100%;
@@ -218,6 +218,7 @@ export default {
         transition: all 1000ms;
         box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
         border-radius: 7px;
+        border: 1px solid black;
 
         .front,
         .back {
