@@ -111,7 +111,8 @@
             hac
             habitasse platea dictumst. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia
             curae; Donec nulla ligula, fringilla at mi ultrices, fermentum eleifend erat.</p>
-            <RouterLink class="btn" to="/solitaire">See More</RouterLink>
+            <RouterLink class="btn" to="/solitaire">Solitaire</RouterLink>
+            <RouterLink class="btn" to="/sudoku">Sudoku</RouterLink>
     </section>
 
     <div class="parallax rig">

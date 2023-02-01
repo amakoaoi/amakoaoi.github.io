@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import Home from '../views/Home.vue'
 import Design from '../views/Design.vue'
 import Solitaire from '../views/Solitaire.vue'
+import Sudoku from '../views/Sudoku.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -20,6 +21,11 @@ const router = createRouter({
       path: '/solitaire',
       name: 'solitaire',
       component: Solitaire
+    },
+    {
+      path: '/sudoku',
+      name: 'sudoku',
+      component: Sudoku
     }
   ]
 })
