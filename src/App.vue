@@ -4,9 +4,7 @@ import Menu from "./components/Menu.vue"
 </script>
 
 <template>
-    <header>
-       <Menu></Menu>
-    </header>
+    <Menu></Menu>
 
     <main>
         <RouterView />

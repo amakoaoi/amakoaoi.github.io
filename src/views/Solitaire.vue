@@ -263,9 +263,10 @@ export default {
     width: $card-width;
     height: $card-height;
     margin: 20px;
-    border: 3px solid rgb(255, 255, 255);
+    // border: 3px solid rgb(255, 255, 255);
+    background: rgba(255, 255, 255, 0.7);
     position: relative;
-    border-radius: 5px;
+    border-radius: 7px;
 }
 
 .first-row {
