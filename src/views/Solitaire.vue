@@ -1,7 +1,20 @@
 <template>
     <div @mousemove="drag" @mouseup="dragStop" style="position: fixed; top: 0; bottom: 0; left: 0; right: 0;">
+        <section v-if="win" class="win">
+            You won !
+            <button class="btn" @click="startSolitaire">
+                <sl-icon name="arrow-clockwise"></sl-icon> Restart
+            </button>
+        </section>
+        <section class="actions">
+            <button class="btn" @click="undo">
+                <sl-icon name="arrow-bar-left"></sl-icon> Undo
+            </button>
+            <button class="btn" @click="startSolitaire">
+                <sl-icon name="arrow-clockwise"></sl-icon> Restart
+            </button>
+        </section>
         <section class="board" @drop="drop">
-            <!-- <DeckCard v-for="i in 13" :key="i" :value="i" color="diamond" :back="5" :faceUp="false"></DeckCard> -->
             <div class="first-row">
                 <div class="pile card-placeholder">
                     <div class="empty-pile" @click="resetPile()"></div>
@@ -71,6 +84,7 @@
                 </div>
             </div>
         </section>
+
     </div>
 
 </template>
@@ -94,33 +108,82 @@ export default {
             draggingCard: null,
             draggingCards: [],
             destination: null,
-            origin: null
+            origin: null,
+            moveHistory: [],
+            win: false
         }
     },
     mounted() {
-        let deck = []
-        for (let color of ["spade", "heart", "clover", "diamond"]) {
-            for (let i = 1; i <= 13; i++) {
-                deck.push({
-                    color: color,
-                    value: i,
-                    faceUp: false,
-                })
-            }
-        }
-        deck = this.shuffle(deck)
-
-        for (let max = 1; max <= 7; max++) {
-            for (let i = 0; i < max; i++) {
-                this.cardColumns[max - 1].push(deck.pop())
-            }
-            const lastCard = this.cardColumns[max - 1].at(-1)
-            lastCard.faceUp = true
-        }
-
-        this.pile = deck
+        this.startSolitaire()
+        this.checkWin()
     },
     methods: {
+        startSolitaire() {
+            this.pile = []
+            this.pileUp = []
+            this.colorPiles = {
+                spade: [],
+                heart: [],
+                clover: [],
+                diamond: [],
+            }
+            this.cardColumns = [[], [], [], [], [], [], []]
+            this.draggingCard = null
+            this.draggingCards = []
+            this.destination = null
+            this.origin = null
+            this.moveHistory = []
+            this.win = false
+
+            let deck = []
+            for (let color of ["spade", "heart", "clover", "diamond"]) {
+                for (let i = 1; i <= 13; i++) {
+                    deck.push({
+                        color: color,
+                        value: i,
+                        faceUp: false,
+                    })
+                }
+            }
+            deck = this.shuffle(deck)
+
+            for (let max = 1; max <= 7; max++) {
+                for (let i = 0; i < max; i++) {
+                    this.cardColumns[max - 1].push(deck.pop())
+                }
+                const lastCard = this.cardColumns[max - 1].at(-1)
+                lastCard.faceUp = true
+            }
+
+            this.pile = deck
+        },
+        undo() {
+            const lastMove = this.moveHistory.pop()
+            if (lastMove.type === "draw") {
+                let lastCard = this.pileUp.pop()
+                lastCard.faceUp = false
+                this.pile.push(lastCard)
+            } else if (lastMove.type === "drag") {
+                if (lastMove.cardWasFacedUp) {
+                    lastMove.origin.cards.at(-1).faceUp = false
+                }
+                for (const card of lastMove.cards) {
+                    lastMove.origin.cards.push(card)
+                }
+                for (const card of lastMove.cards) {
+                    lastMove.destination.cards.pop()
+                }
+            }
+        },
+        checkWin() {
+            for (const column of this.cardColumns) {
+                for (const card of column) {
+                    if (!card.faceUp)
+                        return
+                }
+            }
+            this.win = true
+        },
         isRed(card) {
             return card.color === 'heart' || card.color === 'diamond'
         },
@@ -142,6 +205,9 @@ export default {
             let lastCard = this.pile.pop()
             lastCard.faceUp = true
             this.pileUp.push(lastCard)
+            this.moveHistory.push({
+                type: "draw"
+            })
         },
         resetPile() {
             if (this.pile.length > 0) {
@@ -194,7 +260,7 @@ export default {
 
                 canCardBePlaced = isEmptyAndKing || (colorIsDifferent && originValueIsCorrect)
             } else if (this.destination.type === `colors`) {
-                const isEmptyAndAce =  !destinationIsNotEmpty && this.draggingCard.value === 1 && this.draggingCard.color === this.destination.color
+                const isEmptyAndAce = !destinationIsNotEmpty && this.draggingCard.value === 1 && this.draggingCard.color === this.destination.color
 
                 const colorIsSame = destinationIsNotEmpty && this.draggingCard.color === this.destination.color
 
@@ -212,8 +278,23 @@ export default {
                         this.origin.cards.pop()
                     }
                 }
-                if (this.origin.cards.length > 0)
+                let cardWasFacedUp = false
+                if (this.origin.cards.length > 0) {
+                    if (!this.origin.cards.at(-1).faceUp) {
+                        cardWasFacedUp = true
+                    }
                     this.origin.cards.at(-1).faceUp = true
+                }
+
+                this.checkWin()
+
+                this.moveHistory.push({
+                    type: "drag",
+                    origin: this.origin,
+                    destination: this.destination,
+                    cards: this.draggingCards,
+                    cardWasFacedUp: cardWasFacedUp
+                })
             }
             this.draggingCard = null
             this.draggingCards = []
@@ -329,6 +410,46 @@ export default {
             position: absolute;
 
         }
+    }
+}
+
+button {
+        font-size: 1.3rem;
+        line-height: 0;
+    }
+
+    sl-icon {
+        vertical-align: middle;
+    }
+
+.actions {
+    position: fixed;
+    top: 30px;
+    right: 30px;
+    background: rgba(255, 255, 255, 0.7);
+    border-radius: 7px;
+    display: flex;
+    flex-direction: column;
+    padding: 10px 20px;
+}
+
+.win {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    backdrop-filter: blur(2px);
+    z-index: 10;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: 3rem;
+
+    .btn {
+        font-size: 1.5rem;
     }
 }
 </style>

@@ -212,7 +212,7 @@ $shape-size: 300px;
         float: left;
         position: relative;
         margin-right: 20px;
-        shape-outside: polygon(59.33% 0.67%, 89% 1px, 94.67% 18%, 99% 48.67%, 100% 75.33%, 99.33% 87.33%, 89.33% 92.33%);
+        shape-outside: polygon(59.33% 0.67%, 89% 1px, 94.67% 18%, 99% 48.67%, 100% 75.33%, 99.33% 87.33%, 87.03% 93%, 56.38% 98.00%, 56.38% 98.00%);
 
         img {
             position: relative;
@@ -303,5 +303,33 @@ $shape-size: 300px;
         }
     }
 
+}
+@media screen and (max-width: 1200px) {
+    .description {
+        margin: 0;
+    }
+    .btn-placeholder {
+        position: relative !important;
+    }
+    .logo-shape {
+        margin-bottom: 10px;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .logo-shape {
+        width: calc($shape-size/2);
+        height: calc($shape-size/2);
+        float: none !important;
+        margin: auto !important;
+    }
+
+    .description {
+        margin: 0;
+    }
+
+    .btn-placeholder {
+        position: relative !important;
+    }
 }
 </style>

@@ -2,7 +2,8 @@
     <div class="board">
         <div class="grid-lives">
             <div class="lives">
-                <img src="../assets/img/cards/heart.svg" alt="life" v-for="i in lives" :key="i">
+                <img :class="{ lost: lives < i }" src="../assets/img/cards/heart.svg" alt="life" v-for="i in 3"
+                    :key="i">
             </div>
 
             <div class="sudoku">
@@ -55,6 +56,8 @@ let sudokuSolution = $ref([])
 let lives = $ref(3)
 let lost = $ref(false)
 
+let selectedCell = $ref(null)
+
 function startSudoku() {
     let sudokuGenerated = sudokuGenerator.makepuzzle()
     let sudokuGeneratedIndex = 0
@@ -65,6 +68,8 @@ function startSudoku() {
 
     sudoku = []
     sudokuSolution = []
+
+    selectedCell = null
 
     for (let row = 0; row < 9; row++) {
         sudoku.push([])
@@ -105,9 +110,6 @@ function caseStyle(row, column) {
         borderBottomWidth: row === 8 ? '5px' : '1px'
     }
 }
-
-let selectedCell = $ref(null)
-
 let miniNumbersMode = $ref(false)
 
 function toggleMiniNumber() {
@@ -178,13 +180,14 @@ function selectCell(cell) {
     display: flex;
     margin: auto;
     margin-top: 30px;
-    justify-content: space-between;
-    max-width: 52%;
+    justify-content: center;
     align-items: center;
 }
 
 .grid-lives {
     color: black;
+    margin-left: 30px;
+
     .lives {
         display: flex;
         justify-content: center;
@@ -195,7 +198,36 @@ function selectCell(cell) {
             display: inline-block;
             margin: 0 10px;
             height: 100%;
+            transform-origin: bottom;
+
+            &.lost {
+                animation: heartlost 2s forwards;
+            }
         }
+    }
+}
+
+@keyframes heartlost {
+    25% {
+        transform: scaleY(0.7) scaleX(1.3);
+    }
+
+    30% {
+        transform: scaleY(1.2) scaleX(0.9);
+    }
+
+    50% {
+        transform: translateY(-15px) translateX(20px);
+    }
+
+    99% {
+        opacity: 1;
+    }
+
+    100% {
+        transform-origin: top;
+        transform: translateY(200px) translateX(20px) scaleY(8);
+        opacity: 0;
     }
 }
 
@@ -206,6 +238,8 @@ function selectCell(cell) {
     padding: 10px 15px;
     display: inline-block;
     box-shadow: rgb(0, 0, 0) 0px 20px 30px -10px;
+    z-index: 10;
+    margin: 30px;
 
     >.btn {
         width: 100%;
@@ -231,7 +265,7 @@ function selectCell(cell) {
 .lost-overlay {
     background: rgba(0, 0, 0, 0.7);
     backdrop-filter: blur(5px);
-    
+
     position: absolute;
     top: 0;
     left: 0;
@@ -265,6 +299,10 @@ function selectCell(cell) {
 
         >td {
             font-size: 3rem;
+
+            @media screen and (max-width: 1200px) {
+                font-size: 2rem;
+            }
             width: calc(100% / 9);
             border: 1px solid black;
 
@@ -316,6 +354,45 @@ function selectCell(cell) {
 
     75% {
         transform: translateX(10% * -1);
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .board {
+        max-width: none;
+        flex-direction: column;
+    }
+    .grid-lives {
+        margin-left: 0;
+    }
+    .sudoku-grid {
+        width: calc(100vw - 30px);
+        height: calc(100vw - 30px);
+
+        >tr {
+            >td {
+                font-size: 1.5rem;
+            }
+        }
+    }
+
+    .interface {
+        margin-top: 20px;
+        min-width: none;
+        width: calc(100% - 30px);
+
+        .btn{
+            padding: 15px;
+            font-size: 1rem;
+        }
+    }
+
+    .lost-overlay {
+        font-size: 2rem;
+
+        .btn {
+            font-size: 1.5rem;           
+        }
     }
 }
 </style>
