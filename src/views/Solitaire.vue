@@ -1,5 +1,5 @@
 <template>
-    <div @mousemove="drag" @mouseup="dragStop" style="position: fixed; top: 0; bottom: 0; left: 0; right: 0;">
+    <div @mousemove="drag" @pointerup="dragStop" style="position: fixed; top: 0; bottom: 0; left: 0; right: 0;">
         <section v-if="win" class="win">
             You won !
             <button class="btn" @click="startSolitaire">
@@ -14,7 +14,7 @@
                 <sl-icon name="arrow-clockwise"></sl-icon> Restart
             </button>
         </section>
-        <section class="board" @drop="drop">
+        <section class="board">
             <div class="first-row">
                 <div class="pile card-placeholder">
                     <div class="empty-pile" @click="resetPile()"></div>
@@ -23,7 +23,7 @@
                 </div>
                 <div class="pile-up card-placeholder">
                     <div v-for="card of pileUp" :key="card"
-                        @mousedown="dragStart($event, card, { type: `pile`, cards: pileUp })"
+                        @pointerdown="dragStart($event, card, { type: `pile`, cards: pileUp })"
                         :style="draggingCardStyle(card)">
                         <DeckCard :key="card" :value="card.value" :color="card.color" :back="5" :faceUp="card.faceUp"
                             class="pile-card"></DeckCard>
@@ -34,7 +34,7 @@
                     @mouseenter="dragEnter({ type: `colors`, color: `spade`, cards: colorPiles.spade })"
                     @mouseleave="dragLeave">
                     <div v-for="card of colorPiles.spade" :key="card"
-                        @mousedown="dragStart($event, card, { type: `colors`, cards: colorPiles.spade })"
+                        @pointerdown="dragStart($event, card, { type: `colors`, cards: colorPiles.spade })"
                         :style="draggingCardStyle(card)">
                         <DeckCard :key="card" :value="card.value" :color="card.color" :back="5" :faceUp="card.faceUp"
                             class="pile-card"></DeckCard>
@@ -44,7 +44,7 @@
                     @mouseenter="dragEnter({ type: `colors`, color: `heart`, cards: colorPiles.heart })"
                     @mouseleave="dragLeave">
                     <div v-for="card of colorPiles.heart" :key="card"
-                        @mousedown="dragStart($event, card, { type: `colors`, cards: colorPiles.heart })"
+                        @pointerdown="dragStart($event, card, { type: `colors`, cards: colorPiles.heart })"
                         :style="draggingCardStyle(card)">
                         <DeckCard :key="card" :value="card.value" :color="card.color" :back="5" :faceUp="card.faceUp"
                             class="pile-card"></DeckCard>
@@ -54,7 +54,7 @@
                     @mouseenter="dragEnter({ type: `colors`, color: `clover`, cards: colorPiles.clover })"
                     @mouseleave="dragLeave">
                     <div v-for="card of colorPiles.clover" :key="card"
-                        @mousedown="dragStart($event, card, { type: `colors`, cards: colorPiles.clover })"
+                        @pointerdown="dragStart($event, card, { type: `colors`, cards: colorPiles.clover })"
                         :style="draggingCardStyle(card)">
                         <DeckCard :key="card" :value="card.value" :color="card.color" :back="5" :faceUp="card.faceUp"
                             class="pile-card"></DeckCard>
@@ -64,7 +64,7 @@
                     @mouseenter="dragEnter({ type: `colors`, color: `diamond`, cards: colorPiles.diamond })"
                     @mouseleave="dragLeave">
                     <div v-for="card of colorPiles.diamond" :key="card"
-                        @mousedown="dragStart($event, card, { type: `colors`, cards: colorPiles.diamond })"
+                        @pointerdown="dragStart($event, card, { type: `colors`, cards: colorPiles.diamond })"
                         :style="draggingCardStyle(card)">
                         <DeckCard :key="card" :value="card.value" :color="card.color" :back="5" :faceUp="card.faceUp"
                             class="pile-card"></DeckCard>
@@ -75,8 +75,8 @@
                 <div v-for="cardColumn of cardColumns" :key="cardColumn" class="card-placeholder card-column"
                     @mouseenter="dragEnter({ type: `columns`, cards: cardColumn })" @mouseleave="dragLeave">
                     <div v-for="(card, i) of cardColumn" :key="card"
-                        @mousedown="dragStart($event, card, { type: `columns`, cards: cardColumn })"
-                        :style="draggingCardStyle(card)">
+                        @pointerdown="dragStart($event, card, { type: `columns`, cards: cardColumn })"
+                        :style="draggingCardStyle(card)" :class="{ dragging: draggingCard === card }">
                         <DeckCard :value="card.value" :color="card.color" :back="5" :faceUp="card.faceUp"
                             class="cards-in-columns" :style="{ top: draggingCards.includes(card) ? 0 : i * 25 + 'px' }">
                         </DeckCard>
@@ -223,6 +223,7 @@ export default {
             if (!card.faceUp) {
                 return
             }
+            console.log(event)
             this.draggingCard = card
             this.draggingCard.offsetX = event.offsetX
             this.draggingCard.offsetY = event.offsetY
@@ -316,13 +317,8 @@ export default {
             const cardIndex = this.draggingCards.indexOf(card)
 
             return {
-                position: `fixed`,
-                zIndex: 1,
-                width: `125px`,
-                height: `175px`,
                 top: this.draggingCard.y + 25 * cardIndex + `px`,
-                left: this.draggingCard.x + `px`,
-                pointerEvents: `none`
+                left: this.draggingCard.x + `px`
             }
         }
     }
@@ -337,10 +333,11 @@ export default {
     height: 100%;
 }
 
+$ratio: calc(200px / 280px);
+$card-width: 125px;
+$card-height: calc($card-width / $ratio);
+
 .card-placeholder {
-    $ratio: calc(200px / 280px);
-    $card-width: 125px;
-    $card-height: calc($card-width / $ratio);
     width: $card-width;
     height: $card-height;
     margin: 20px;
@@ -348,6 +345,30 @@ export default {
     background: rgba(255, 255, 255, 0.7);
     position: relative;
     border-radius: 7px;
+}
+
+.dragging {
+    position: fixed;
+    z-index: 1;
+    width: $card-width;
+    height: $card-height;
+    pointer-events: none;
+}
+
+@media screen and (max-width: 600px) {
+    $card-width: calc((100vw - 40px)/7 - 2*3px);
+    $card-height: calc($card-width / $ratio);
+
+    .card-placeholder {
+        margin: 3px;
+        width: $card-width;
+        height: $card-height;
+    }
+
+    .dragging {
+        width: $card-width;
+        height: $card-height;
+    }
 }
 
 .first-row {
@@ -414,13 +435,13 @@ export default {
 }
 
 button {
-        font-size: 1.3rem;
-        line-height: 0;
-    }
+    font-size: 1.3rem;
+    line-height: 0;
+}
 
-    sl-icon {
-        vertical-align: middle;
-    }
+sl-icon {
+    vertical-align: middle;
+}
 
 .actions {
     position: fixed;
@@ -431,6 +452,17 @@ button {
     display: flex;
     flex-direction: column;
     padding: 10px 20px;
+}
+
+@media screen and (max-width: 600px) {
+    .actions {
+        bottom: 10px;
+        left: 10px;
+        top: initial;
+        right: 10px;
+        flex-direction: row;
+        justify-content: space-around;
+    }
 }
 
 .win {

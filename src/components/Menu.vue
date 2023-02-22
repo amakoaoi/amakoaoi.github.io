@@ -8,7 +8,7 @@
     <sl-drawer ref="drawer" label="Menu" placement="start" class="drawer-placement-start">
         <sl-menu>
             <sl-menu-item @click="navigateTo(`/`)">Home</sl-menu-item>
-            
+
             <sl-divider></sl-divider>
 
             <sl-menu-item @click="navigateTo(`/design`)">Web Design</sl-menu-item>
@@ -18,14 +18,10 @@
             <sl-menu-label>Games</sl-menu-label>
             <sl-menu-item @click="navigateTo(`/solitaire`)">Solitaire</sl-menu-item>
             <sl-menu-item @click="navigateTo(`/sudoku`)">Sudoku</sl-menu-item>
-            
+
             <sl-divider></sl-divider>
 
             <sl-menu-item @click="navigateTo(`/rig`)">Rig</sl-menu-item>
-
-            <sl-divider></sl-divider>
-
-            <sl-menu-item @click="navigateTo(`/drawings`)">Drawings</sl-menu-item>
         </sl-menu>
     </sl-drawer>
 </template>

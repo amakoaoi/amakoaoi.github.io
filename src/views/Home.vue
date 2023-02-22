@@ -91,9 +91,6 @@
             Wacom avec un écran, ce qui me change la vie. N'ayant plus de licence étudiante Photoshop j'ai pris le
             partie de me diriger vers un logiciel plus adapté au dessin qui est Clip Studio Paint.
         </p>
-        <div class="btn-placeholder">
-            <RouterLink class="btn" to="/drawings">Voir les dessins</RouterLink>
-        </div>
     </section>
 
 </template>
