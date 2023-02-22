@@ -217,12 +217,12 @@ export default {
         height: 100%;
         transition: all 1000ms;
         box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
-        border-radius: 7px;
+        border-radius: 13px;
         border: 1px solid black;
 
         .front,
         .back {
-            border-radius: 7px;
+            border-radius: 13px;
             width: 100%;
             height: 100%;
             position: absolute;
@@ -231,6 +231,7 @@ export default {
 
         .front {
             background: white;
+            border-radius: 13px;
         }
 
         .back {
