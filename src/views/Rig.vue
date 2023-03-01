@@ -1,6 +1,6 @@
 <template>
     <section>
-        <h2>Le rig, c’est quoi ?</h2>
+        <h2>Le rig, c'est quoi ?</h2>
         <figure>
             <blockquote cite="https://fr.wikipedia.org/wiki/Rigging">
                 <p>
@@ -60,45 +60,167 @@
             <figcaption>—<cite>Wikipedia</cite></figcaption>
         </figure>
     </section>
+    <section class="img-section">
+        <sl-image-comparer>
+            <img slot="before" src="../assets/img/rig/armchair2.webp" alt="Armchair with rig" />
+            <img slot="after" src="../assets/img/rig/armchair.webp" alt="Armchair mesh only" />
+        </sl-image-comparer>
+    </section>
+
 
     <section>
-        <h2>Présentation de mon projet de fin d’étude </h2>
+        <h2>Présentation de mon projet de fin d'étude </h2>
         <p>
-            Dans le cadre de mes études, j’ai été amenée à concevoir en équipe un court-métrage dont le thème était «
-            Pas si bête ». La direction artistique était libre, en veillant cependant à respecter les droits d’auteur et
+            Dans le cadre de mes études, j'ai été amenée à concevoir en équipe un court-métrage dont le thème était «
+            Pas si bête ». La direction artistique était libre, en veillant cependant à respecter les droits d'auteur et
             ne pas faire de plagiat. Nous nous sommes donc dirigés vers un style inspiré de celui de Tim Burton pour
-            apporter une ambiance sombre et terrifiante à notre court-métrage. Chaque personne de l’équipe a eu
-            l’occasion de se pencher plus particulièrement sur les domaines qui les intéressaient le plus. Ainsi j’ai
-            créé tous les rigs de notre film, de plus j’ai fait le montage vidéo et l’affiche.
+            apporter une ambiance sombre et terrifiante à notre court-métrage. Chaque personne de l'équipe a eu
+            l'occasion de se pencher plus particulièrement sur les domaines qui les intéressaient le plus. Ainsi j'ai
+            créé tous les rigs de notre film, de plus j'ai fait le montage vidéo et l'affiche.
         </p>
     </section>
-    <iframe src="https://www.youtube.com/embed/dffoRmh3L_g" title="YouTube video player"
-            frameborder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            allowfullscreen></iframe>
+
+    <iframe src="https://www.youtube.com/embed/dffoRmh3L_g" title="YouTube video player" frameborder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        allowfullscreen></iframe>
+
+    <section>
+        <h2>Galerie</h2>
+        <div class="carousel">
+            <div class="carousel-img">
+                <div :style="{ transform: `translateX(-${i * 100}%)` }">
+                    <img src="../assets/img/rig/clock.webp" alt="clock">
+                    <img src="../assets/img/rig/josh-manteau.webp" alt="Josh manteau">
+                    <img src="../assets/img/rig/armchair2.webp" alt="armchair">
+                    <img src="../assets/img/rig/lantern.webp" alt="lantern">
+                    <img src="../assets/img/rig/wardrobe.webp" alt="wardrobe">
+                </div>
+            </div>
+            <div class="carousel-btn">
+                <button @click="previous()"><sl-icon name="chevron-left"></sl-icon></button>
+                <button @click="next()"><sl-icon name="chevron-right"></sl-icon></button>
+            </div>
+
+        </div>
+
+
+    </section>
 
     <section>
         <h2>Après mes études</h2>
         <p>
-            Une fois mes études finies j’ai commencé à apprendre le scripting en Python afin de créer des scripts dans
-            maya. J’ai donc créé deux scripts :
+            Une fois mes études finies j'ai commencé à apprendre le scripting en Python afin de créer des scripts dans
+            maya. J'ai donc créé deux scripts :
         <ul>
             <li>Un outil permettant de renommer les objets de manière efficace ainsi que de respecter les nomenclatures
                 facilement.</li>
+        </ul>
+        <div class="tools">
+            <img src="../assets/img/rig/renamer2.webp" alt="Renamer">
+            <div class="explanation">
+                <div class="speech-bubble">
+                    <p>Prefix : Ajoute un préfixe à tous les éléments séléctionnés.</p>
+                    <p>Suffix : Ajoute un suffixe à tous les éléments séléctionnés.</p>
+                </div>
+                <div class="speech-bubble" style="top: 30px;">
+                    <p>Search for/Replace with : Permet de remplacer une partie du nom.</p>
+                </div>
+                <div class="speech-bubble" style="top: 50px;">
+                    <p>Section permettant d'ajouter sur tous les éléments sélectionnés un suffixe prédéfini.</p>
+                </div>
+                <div class="speech-bubble" style="top: 50px;">
+                    <p>Permet de renommer les éléments sélectionnés avec une numérotation en fonction du nombre d'éléments.
+                    </p>
+                </div>
+            </div>
+        </div>
+        <ul>
             <li>Un outil permettant de changer la forme des contrôleurs des rigs ainsi que leur couleur.</li>
         </ul>
+        <div class="tools">
+            <img src="../assets/img/rig/shapebox2.webp" alt="">
+        </div>
         </p>
     </section>
-
-
-
 </template>
 
 <script setup>
+import { Transition } from 'vue';
 
+let i = $ref(0)
+function next() {
+    if (i === 4) {
+        i = 0
+    } else {
+        i++
+    }
+}
+function previous() {
+    if (i === 0) {
+        i = 4
+    } else {
+        i--
+    }
+}
 </script>
 
 <style lang="scss" scoped>
+.carousel {
+    position: relative;
+
+    .carousel-btn {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        z-index: 1;
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+
+        button {
+            background: rgba(255, 255, 255, 0.3);
+            height: 30%;
+            font-size: 1.3rem;
+            border: none;
+            cursor: pointer;
+
+            &:first-child {
+                padding-right: 10px;
+                border-top-right-radius: 50%;
+                border-bottom-right-radius: 50%;
+            }
+
+            &:last-child {
+                padding-left: 10px;
+                border-top-left-radius: 50%;
+                border-bottom-left-radius: 50%;
+            }
+        }
+    }
+
+    .carousel-img {
+        overflow-x: hidden;
+        border-radius: 7px;
+
+        div {
+            display: flex;
+            transition: transform 500ms;
+        }
+    }
+}
+
+
+.img-section {
+    background: none;
+    padding: 0;
+
+    img {
+        border-radius: 10px;
+    }
+}
+
 section {
     margin: 20px auto;
     max-width: 50%;
@@ -115,6 +237,56 @@ section {
         text-indent: 30px;
         text-align: justify;
     }
+
+    img {
+        max-width: 100%;
+    }
+}
+
+.speech-bubble {
+    position: relative;
+    background: #1d1624;
+    border-radius: .4em;
+    color: white;
+    padding: 10px;
+    margin-bottom: 10px;
+
+    p {
+        text-indent: 10px;
+        text-align: left;
+    }
+}
+
+.speech-bubble:after {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    width: 0;
+    height: 0;
+    border: 12px solid transparent;
+    border-right-color: #1d1624;
+    border-left: 0;
+    margin-top: -12px;
+    margin-left: -12px;
+}
+
+#maya-tools {
+    display: flex;
+    flex-direction: column;
+}
+
+.tools {
+    display: flex;
+    margin: 20px 0;
+}
+
+.explanation {
+    padding: 10px 15px;
+    display: flex;
+    flex-direction: column;
+    font-size: .9rem;
+    position: relative;
 }
 
 iframe {
@@ -122,6 +294,7 @@ iframe {
     display: block;
     width: 50vw;
     height: calc(50vw * 9 /16);
+    border-radius: 10px;
 }
 
 figure {
