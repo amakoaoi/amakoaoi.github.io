@@ -122,13 +122,13 @@
                     <p>Prefix : Ajoute un préfixe à tous les éléments séléctionnés.</p>
                     <p>Suffix : Ajoute un suffixe à tous les éléments séléctionnés.</p>
                 </div>
-                <div class="speech-bubble" style="top: 30px;">
+                <div class="speech-bubble">
                     <p>Search for/Replace with : Permet de remplacer une partie du nom.</p>
                 </div>
-                <div class="speech-bubble" style="top: 50px;">
+                <div class="speech-bubble">
                     <p>Section permettant d'ajouter sur tous les éléments sélectionnés un suffixe prédéfini.</p>
                 </div>
-                <div class="speech-bubble" style="top: 50px;">
+                <div class="speech-bubble">
                     <p>Permet de renommer les éléments sélectionnés avec une numérotation en fonction du nombre d'éléments.
                     </p>
                 </div>
@@ -287,6 +287,18 @@ section {
     flex-direction: column;
     font-size: .9rem;
     position: relative;
+
+    .speech-bubble:nth-child(2) {
+        top: 30px;
+    }
+
+    .speech-bubble:nth-child(3) {
+        top: 50px;
+    }
+
+    .speech-bubble:nth-child(4) {
+        top: 50px;
+    }
 }
 
 iframe {
@@ -305,6 +317,72 @@ figure {
 
     figcaption {
         text-align: right;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    section {
+        max-width: inherit;
+        padding: 20px;
+        border-radius: 0;
+
+        &:first-child {
+            margin-top: 0;
+            padding-top: 50px;
+        }
+
+        &:last-child {
+            margin-bottom: 0;
+        }
+    }
+
+    iframe {
+        margin: auto;
+        display: block;
+        width: 100vw;
+        height: calc(100vw * 9 /16);
+        border-radius: 0;
+    }
+
+    .img-section {
+        img {
+            border-radius: 0;
+        }
+
+    }
+
+    .tools {
+        flex-direction: column;
+        margin: 10px 0;
+
+        .explanation {
+            .speech-bubble:nth-child(2) {
+                top: 0;
+            }
+
+            .speech-bubble:nth-child(3) {
+                top: 0;
+            }
+
+            .speech-bubble:nth-child(4) {
+                top: 0;
+                margin-bottom: 0;
+            }
+        }
+
+        .speech-bubble {
+            background: transparent;
+            color: black;
+            padding: 10px 0;
+            margin-bottom: 10px;
+            text-align: justify;
+            border-bottom: 1px solid black;
+            border-radius: 0;
+        }
+
+        .speech-bubble:after {
+            opacity: 0;
+        }
     }
 }
 </style>
