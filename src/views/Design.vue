@@ -34,16 +34,43 @@
                 <button class="btn" @click="faceUp = !faceUp">Retourner la carte</button>
             </div>
         </div>
+    </section>
+    <section>
+        <h2>Animation d'une perte de vie</h2>
+        <div class="heart-section">
+            <button class="btn" @click="startAnimation()">Lancer l'animation </button>
+            <div class="animation">
+                <img src="../assets/img/cards/heart.svg" alt="life" :class="{ 'heart-animation': animationStarted }">
+            </div>
+        </div>
+    </section>
 
+    <section>
+        <h2>Validation de formulaire</h2>
+        <div>
+            <p>Essayez d'écrire un courriel valide, ainsi qu'un courriel invalide pour voir les animations.</p>
+            <EmailInput></EmailInput>
+        </div>
     </section>
 </template>
 
 <script setup>
+import path from "path";
 import DeckCard from "../components/DeckCard.vue"
+import EmailInput from "../components/EmailInput.vue"
 let cardValue = $ref(1)
 let cardColor = $ref("spade")
 let faceUp = $ref(true)
-let cardBack =$ref(1)
+let cardBack = $ref(1)
+let animationStarted = $ref(false)
+
+function startAnimation() {
+
+    animationStarted = true
+    setTimeout(() => {
+        animationStarted = false
+    }, 2000)
+}
 </script>
 
 <style lang="scss" scoped>
@@ -54,9 +81,66 @@ section {
     background: rgba(255, 255, 255, 0.7);
     padding: 30px;
     border-radius: 10px;
+    overflow: hidden;
+
+    p {
+        margin-bottom: 10px;
+    }
 
     h2 {
         margin-bottom: 1em;
+    }
+
+}
+
+
+
+.heart-section {
+    text-align: center;
+
+    .animation {
+        height: 100px;
+        width: 120px;
+        margin: auto;
+        padding-top: 30px;
+
+        img {
+            width: 50px;
+        }
+    }
+
+    .btn {
+        font-size: 1.5rem;
+        margin: auto;
+    }
+}
+
+.heart-animation {
+    animation: heartlost 2s forwards;
+
+}
+
+@keyframes heartlost {
+    25% {
+        transform: scaleY(0.7) scaleX(1.3);
+    }
+
+    30% {
+        transform: scaleY(1.2) scaleX(0.9);
+    }
+
+    50% {
+        transform: translateY(-15px) translateX(20px);
+    }
+
+    99% {
+        opacity: 1;
+    }
+
+    100% {
+        transform-origin: top;
+        transform: translateY(200px) translateX(20px) scaleY(8);
+        opacity: 0;
     }
 }
 
@@ -84,6 +168,7 @@ section {
     label {
         margin-bottom: 10px;
     }
+
     sl-radio-group {
         margin-bottom: 20px;
     }
@@ -102,7 +187,9 @@ section {
     sl-range {
         --track-color-active: #7e43b9;
         --track-color-inactive: #574867;
-        &::part(input)::-moz-range-thumb, &::part(input)::-webkit-slider-thumb {
+
+        &::part(input)::-moz-range-thumb,
+        &::part(input)::-webkit-slider-thumb {
             background-color: #7e43b9;
         }
     }
