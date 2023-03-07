@@ -3,9 +3,9 @@
         <div class="card-inner">
             <div class="front">
                 <svg viewBox="0 0 100 140">
-                    <text x="16" y="15" text-anchor="end" size="10" :fill="textColor">{{ textValue }}</text>
+                    <text x="16" y="15" text-anchor="end" font-size="12" :fill="textColor">{{ textValue }}</text>
                     <image :xlink:href="colorImageURL" x="17" y="5" height="10" width="10" />
-                    <text x="84" y="135" text-anchor="end" size="10" :fill="textColor">{{ textValue }}</text>
+                    <text x="84" y="135" text-anchor="end" font-size="12" :fill="textColor">{{ textValue }}</text>
                     <image :xlink:href="colorImageURL" x="85" y="125" height="10" width="10" />
                     <svg x="10" y="20" width="80" height="100">
                         <image v-for="coord of cardsSigns" :key="coord.x + '' + coord.y" :xlink:href="coord.imageURL"

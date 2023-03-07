@@ -344,7 +344,7 @@ $card-height: calc($card-width / $ratio);
     // border: 3px solid rgb(255, 255, 255);
     background: rgba(255, 255, 255, 0.7);
     position: relative;
-    border-radius: 7px;
+    border-radius: 13px;
 }
 
 .dragging {
