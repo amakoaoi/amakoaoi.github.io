@@ -52,12 +52,19 @@
             <EmailInput></EmailInput>
         </div>
     </section>
+    <section @mousemove="generateParticles($event)" style="height: 600px;">
+        <h2>Paillettes</h2>
+        <p>Survolez cette section, on va mettre des paillettes dans vos vies.</p>
+        <div v-for="particle in particles" :style="particle.position" class="particle-container">
+            <div :class="{ particle: particle.start }" :style="particle.style"></div>
+        </div>
+    </section>
 </template>
 
 <script setup>
-import path from "path";
 import DeckCard from "../components/DeckCard.vue"
 import EmailInput from "../components/EmailInput.vue"
+
 let cardValue = $ref(1)
 let cardColor = $ref("spade")
 let faceUp = $ref(true)
@@ -70,6 +77,58 @@ function startAnimation() {
     setTimeout(() => {
         animationStarted = false
     }, 2000)
+}
+
+let particles = $ref([])
+
+for (let i = 0; i < 100; i++) {
+    const hue = getRandomInt(0, 361)
+    particles.push({
+        start: false,
+        position: {
+            top: 0,
+            left: 0,
+
+        },
+        style: {
+            backgroundImage: `radial-gradient(hsl(${hue}, 100%, 80%),
+                hsl(${hue}, 100%, 80%) 10%,
+                hsla(${hue}, 100%, 80%, 0) 56%)`,
+        }
+    })
+}
+
+let i = 0
+
+let wait = false
+function generateParticles(event) {
+    if (wait) {
+        return
+    }
+
+    particles[i].start = true
+    particles[i].position = {
+        top: event.clientY + getRandomInt(0, 40) + "px",
+        left: event.clientX + getRandomInt(-40, 40) + "px",
+    }
+
+    const index = i
+    setTimeout(() => particles[index].start = false, 1500)
+
+    wait = true
+    setTimeout(() => wait = false, 10)
+    i++
+
+    if (i >= 100) {
+        i = 0
+    }
+}
+
+
+function getRandomInt(min, max) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min) + min);
 }
 </script>
 
@@ -89,11 +148,40 @@ section {
 
     h2 {
         margin-bottom: 1em;
+        user-select: none;
     }
 
 }
 
+.particle-container {
+    position: fixed;
 
+    div {
+        opacity: 0;
+    }
+
+    .particle {
+        width: 15px;
+        height: 15px;
+        border-radius: 50%;
+        animation: falling 1s forwards;
+    }
+}
+
+@keyframes falling {
+    0% {
+        opacity: 1;
+    }
+
+    70% {
+        opacity: 1;
+    }
+
+    100% {
+        transform: translateY(30px) scale(0.5);
+        opacity: 0;
+    }
+}
 
 .heart-section {
     text-align: center;
