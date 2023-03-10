@@ -121,11 +121,11 @@
     }
 
     &.drawing {
-        background-image: url("../assets/img/dessin.jpg");
+        background-image: url("../assets/img/drawings.webp");
     }
 
     &.rig {
-        background-image: url("../assets/img/rig.png");
+        background-image: url("../assets/img/rig.webp");
     }
 
     &.design {
@@ -133,7 +133,7 @@
     }
 
     &.solitaire {
-        background-image: url("../assets/img/solitaire.jpg");
+        background-image: url("../assets/img/games.webp");
     }
 }
 
@@ -327,6 +327,10 @@ $shape-size: 300px;
 
     .btn-placeholder {
         position: relative !important;
+    }
+
+    .drawing {
+        background-image: url("../assets/img/drawings_mobile.webp") !important;
     }
 }
 </style>

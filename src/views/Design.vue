@@ -153,6 +153,8 @@ section {
 
 }
 
+
+
 .particle-container {
     position: fixed;
 
@@ -280,6 +282,33 @@ section {
         &::part(input)::-webkit-slider-thumb {
             background-color: #7e43b9;
         }
+    }
+}
+
+@media screen and (max-width: 600px) {
+    section {
+        max-width: 100%;
+        border-radius: 0;
+
+        &:first-child {
+            margin-top: 0;
+            padding-top: 50px;
+        }
+
+        &:last-child {
+            margin-bottom: 0;
+        }
+    }
+
+    .card-section {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .card-selection {
+        padding: 0 30px;
+        font-size: 1.2rem;
+        margin-top: 10px;
     }
 }
 </style>
