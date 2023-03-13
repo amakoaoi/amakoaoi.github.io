@@ -1,20 +1,25 @@
+export let language = $ref(`en`)
+
 export function getLanguage() {
-    let language = localStorage.getItem(`language`)
-    if (!language) {
-        language = navigator.language.substring(0, 2) === `fr` ? `fr` : `en`
-        localStorage.setItem(`language`, language)
+    let lang = localStorage.getItem(`language`)
+    if (!lang) {
+        lang = navigator.language.substring(0, 2) === `fr` ? `fr` : `en`
+        localStorage.setItem(`language`, lang)
     }
+
+    language = lang
 
     return language
 }
 
-export function setLanguage(language) {
-    if (language !== `en` && language !== `fr`) {
-        console.error(`invalid language ${language}`)
+export function setLanguage(lang) {
+    if (lang !== `en` && lang !== `fr`) {
+        console.error(`invalid language ${lang}`)
         return;
     }
-    localStorage.setItem(`language`, language)
-    window.location.reload()
+    localStorage.setItem(`language`, lang)
+
+    language = lang
 }
 
 export function isFrench() {
@@ -25,13 +30,13 @@ export function isEnglish() {
     return getLanguage() === `en`
 }
 
-export function translate(value, language) {
+export function translate(value, lang) {
     if (!value) {
         return ``
     }
 
-    if (!language) {
-        language = getLanguage();
+    if (!lang) {
+        lang = getLanguage();
     }
 
     const translations = value.split(`|`);
@@ -39,7 +44,7 @@ export function translate(value, language) {
         return value;
     }
 
-    if (language === `fr`) {
+    if (lang === `fr`) {
         return translations[1]
     } else {
         return translations[0]
