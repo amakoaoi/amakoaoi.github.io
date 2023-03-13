@@ -7,27 +7,39 @@
 
     <sl-drawer ref="drawer" label="Menu" placement="start" class="drawer-placement-start">
         <sl-menu>
-            <sl-menu-item @click="navigateTo(`/`)">Home</sl-menu-item>
+            <sl-menu-item @click="navigateTo(`/`)">Home|ACCUEIL</sl-menu-item>
 
             <sl-divider></sl-divider>
 
-            <sl-menu-item @click="navigateTo(`/design`)">Web Design</sl-menu-item>
+            <sl-menu-item @click="navigateTo(`/design`)">Web Design|Design Web</sl-menu-item>
 
             <sl-divider></sl-divider>
 
-            <sl-menu-label>Games</sl-menu-label>
-            <sl-menu-item @click="navigateTo(`/solitaire`)">Solitaire</sl-menu-item>
+            <sl-menu-label class="desktop-only">Games|Jeux</sl-menu-label>
+            <sl-menu-item class="desktop-only" @click="navigateTo(`/solitaire`)">Solitaire</sl-menu-item>
             <sl-menu-item @click="navigateTo(`/sudoku`)">Sudoku</sl-menu-item>
 
             <sl-divider></sl-divider>
 
             <sl-menu-item @click="navigateTo(`/rig`)">Rig</sl-menu-item>
         </sl-menu>
+        <div class="flags">
+            <img src="../assets/img/en.svg" alt="English" :class="{ 'selected-language': language === `en`}" @click="changeLanguage(`en`)">
+            <img src="../assets/img/fr.svg" alt="Français" :class="{ 'selected-language': language === `fr`}" @click="changeLanguage(`fr`)">
+        </div>
     </sl-drawer>
 </template>
 
 <script setup>
 import { useRouter } from 'vue-router'
+import {setLanguage, getLanguage} from "../i18n.js"
+
+let language = $ref(getLanguage())
+
+function changeLanguage(newLanguage) {
+    language = newLanguage
+    setLanguage(language)
+}
 
 const drawer = $ref(null)
 
@@ -40,6 +52,27 @@ function navigateTo(path) {
 </script>
 
 <style lang="scss" scoped>
+.flags {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    img {
+        height: 20px;
+        display: inline-block;
+        margin: 10px 5px;
+        cursor: pointer;
+
+        &:hover {
+            box-shadow: rgb(255, 255, 255) 0px 0px 7px;
+        }
+    }
+}
+
+.selected-language {
+    height: 30px !important;
+}
+
 #menu-btn {
     position: fixed;
     top: 15px;
