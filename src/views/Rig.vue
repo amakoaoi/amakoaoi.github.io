@@ -2,7 +2,7 @@
     <section>
         <h2 v-tr>What is rig?|Le rig, c'est quoi ?</h2>
         <figure>
-            <blockquote cite="https://fr.wikipedia.org/wiki/Rigging" v-if="isFrench">
+            <blockquote cite="https://fr.wikipedia.org/wiki/Rigging" v-if="isFrench()">
                 <p v-tr>
                     Le squelettage ou rigging est un procédé en synthèse d'images 3D qui dote un objet à animer d'un
                     squelette profond mobile qui déformera son maillage (mesh) de surface. Il s'agit pour le rigger de
@@ -139,6 +139,7 @@
                 Un outil permettant de renommer les objets de manière efficace ainsi que de respecter les nomenclatures
                 facilement.</li>
         </ul>
+        </p>
         <div class="tools">
             <img src="../assets/img/rig/renamer2.webp" alt="Renamer">
             <div class="explanation">
@@ -175,13 +176,11 @@
         <div class="tools">
             <img src="../assets/img/rig/shapebox2.webp" alt="">
         </div>
-        </p>
     </section>
 </template>
 
 <script setup>
-import { Transition } from 'vue';
-import {isFrench} from "../i18n"
+import { isFrench } from "../i18n"
 
 let i = $ref(0)
 function next() {

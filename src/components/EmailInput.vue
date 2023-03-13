@@ -1,8 +1,8 @@
 <template>
-    <label for="email" class="email-label">Courriel</label>
+    <label v-tr for="email" class="email-label">E-mail|Courriel</label>
     <div>
         
-        <input type="email" id="email" class="email-input" placeholder="Entrez votre courriel" required>
+        <input type="email" id="email" class="email-input" :placeholder="tr('Enter your E-mail|Entrez votre courriel')" required>
 
         <svg viewBox="0 0 500 500" id="checkmark">
             <path d="M 151 263 Q 196 271 237 328 Q 252 199 357 148"></path>
@@ -12,7 +12,7 @@
 </template>
 
 <script setup>
-
+import {tr} from "../i18n.js"
 </script>
 
 <style lang="scss" scoped>
