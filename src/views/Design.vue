@@ -1,20 +1,20 @@
 <template>
     <section>
-        <h2>Carte à jouer</h2>
+        <h2 v-tr>Playing card|Carte à jouer</h2>
         <div class="card-section">
             <div style="width: 250px; cursor: pointer;">
                 <DeckCard :value="cardValue" :color="cardColor" :back="cardBack" :faceUp="faceUp" @click="faceUp = !faceUp">
                 </DeckCard>
             </div>
             <div class="card-selection">
-                <label for="card">Choisir la valeur :</label>
+                <label v-tr for="card">Select the value :|Choisir la valeur :</label>
                 <select v-model="cardValue" name="card" id="card">
                     <option v-for="i in 10" :value="i">{{ i }}</option>
-                    <option :value="11">Valet</option>
-                    <option :value="12">Dame</option>
-                    <option :value="13">Roi</option>
+                    <option v-tr :value="11">Jack|Valet</option>
+                    <option v-tr :value="12">Queen|Dame</option>
+                    <option v-tr :value="13">King|Roi</option>
                 </select>
-                <label for="color">Choisir la couleur :</label>
+                <label v-tr for="color">Select the color :Choisir la couleur :</label>
                 <sl-radio-group name="color" id="color" :value="cardColor" @sl-input="cardColor = $event.target.value">
                     <sl-radio-button pill size="large" value="spade">
                         <img src="../assets/img/cards/spade.svg" alt="spade" class="color-img">
@@ -29,16 +29,16 @@
                         <img src="../assets/img/cards/diamond.svg" alt="diamond" class="color-img">
                     </sl-radio-button>
                 </sl-radio-group>
-                <label for="back">Changer le dos de la carte :</label>
+                <label v-tr for="back">Change the back of the card:|Changer le dos de la carte :</label>
                 <sl-range v-model="cardBack" id="back" min="1" max="9"></sl-range>
-                <button class="btn" @click="faceUp = !faceUp">Retourner la carte</button>
+                <button v-tr class="btn" @click="faceUp = !faceUp">Return the card|Retourner la carte</button>
             </div>
         </div>
     </section>
     <section>
-        <h2>Animation d'une perte de vie</h2>
+        <h2 v-tr>Animation of a loss of life|Animation d'une perte de vie</h2>
         <div class="heart-section">
-            <button class="btn" @click="startAnimation()">Lancer l'animation </button>
+            <button v-tr class="btn" @click="startAnimation()">Start the animation|Lancer l'animation</button>
             <div class="animation">
                 <img src="../assets/img/cards/heart.svg" alt="life" :class="{ 'heart-animation': animationStarted }">
             </div>
@@ -46,15 +46,17 @@
     </section>
 
     <section>
-        <h2>Validation de formulaire</h2>
+        <h2 v-tr>Form validation|Validation de formulaire</h2>
         <div>
-            <p>Essayez d'écrire un courriel valide, ainsi qu'un courriel invalide pour voir les animations.</p>
+            <p v-tr>Try to write a valid email, as well as an invalid email to see the animations.
+                |
+                Essayez d'écrire un courriel valide, ainsi qu'un courriel invalide pour voir les animations.</p>
             <EmailInput></EmailInput>
         </div>
     </section>
     <section @mousemove="generateParticles($event)" style="height: 600px;">
-        <h2>Paillettes</h2>
-        <p>Survolez cette section, on va mettre des paillettes dans vos vies.</p>
+        <h2 v-tr>Glitters|Paillettes</h2>
+        <p v-tr>Hover over this section, we'll put some glitter in your lives.|Survolez cette section, on va mettre des paillettes dans vos vies.</p>
         <div v-for="particle in particles" :style="particle.position" class="particle-container">
             <div :class="{ particle: particle.start }" :style="particle.style"></div>
         </div>

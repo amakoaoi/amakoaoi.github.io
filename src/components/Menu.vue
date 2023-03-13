@@ -7,15 +7,15 @@
 
     <sl-drawer ref="drawer" label="Menu" placement="start" class="drawer-placement-start">
         <sl-menu>
-            <sl-menu-item @click="navigateTo(`/`)">Home|ACCUEIL</sl-menu-item>
+            <sl-menu-item v-tr @click="navigateTo(`/`)">Home|ACCUEIL</sl-menu-item>
 
             <sl-divider></sl-divider>
 
-            <sl-menu-item @click="navigateTo(`/design`)">Web Design|Design Web</sl-menu-item>
+            <sl-menu-item v-tr @click="navigateTo(`/design`)">Web Design|Design Web</sl-menu-item>
 
             <sl-divider></sl-divider>
 
-            <sl-menu-label class="desktop-only">Games|Jeux</sl-menu-label>
+            <sl-menu-label v-tr class="desktop-only">Games|Jeux</sl-menu-label>
             <sl-menu-item class="desktop-only" @click="navigateTo(`/solitaire`)">Solitaire</sl-menu-item>
             <sl-menu-item @click="navigateTo(`/sudoku`)">Sudoku</sl-menu-item>
 

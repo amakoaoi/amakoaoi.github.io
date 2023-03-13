@@ -1,60 +1,72 @@
 <template>
     <section>
-        <h2>Le rig, c'est quoi ?</h2>
+        <h2 v-tr>What is rig?|Le rig, c'est quoi ?</h2>
         <figure>
-            <blockquote cite="https://fr.wikipedia.org/wiki/Rigging">
-                <p>
+            <blockquote cite="https://fr.wikipedia.org/wiki/Rigging" v-if="isFrench">
+                <p v-tr>
                     Le squelettage ou rigging est un procédé en synthèse d'images 3D qui dote un objet à animer d'un
-                    squelette
-                    profond
-                    mobile qui déformera son maillage (mesh) de surface. Il s'agit pour le rigger de choisir les
-                    endroits où
-                    seront
-                    placés les axes de rotations, afin de permettre les mouvements désirés (bielle de locomotive à
-                    vapeur,
-                    pistons
-                    d'un
-                    moteur à combustion interne, rotules et coudes d'un personnage, etc.). Pour les personnages, la
-                    contraction des
-                    muscles et l'affleurement des os à la surface de la peau lors des mouvements dépendent entièrement
-                    du
-                    choix des
-                    axes
-                    de rotation et de l'amplitude que l'on leur accorde lors du rigging. La facilité d'animer un objet
-                    en 3D
-                    dépend
-                    donc
-                    principalement de la qualité de son rigging.
+                    squelette profond mobile qui déformera son maillage (mesh) de surface. Il s'agit pour le rigger de
+                    choisir les endroits où seront placés les axes de rotations, afin de permettre les mouvements désirés
+                    (bielle de locomotive à vapeur, pistons d'un moteur à combustion interne, rotules et coudes d'un
+                    personnage, etc.). Pour les personnages, la contraction des muscles et l'affleurement des os à la
+                    surface de la peau lors des mouvements dépendent entièrement
+                    du choix des axes de rotation et de l'amplitude que l'on leur accorde lors du rigging. La facilité
+                    d'animer un objet en 3D dépend donc principalement de la qualité de son rigging.
                 </p>
-                <p>
-                    L'objet à animer est représenté en deux parties : la surface de l'objet appelée mesh (maillage) et
-                    un
-                    ensemble
-                    hiérarchisé d'os interconnectés appelé squelette ou rig. Chaque os a une transformation
-                    tridimensionnelle
-                    (rotation, homothétie et translation) et éventuellement un os parent, formant un ensemble
-                    hiérarchisé où
-                    la
-                    transformation complète d'un os enfant est le produit de la transformation des os parents et de la
-                    sienne
-                    propre. Ainsi lorsque le fémur bouge, la jambe et le pied suivent le mouvement. Quand un objet est
-                    animé, ses os
-                    changent de transformation au cours du temps, sous le contrôle de l'animateur. Un squelette est
-                    composé
-                    de
-                    cinématique directe (en) et inverse qui interagissent entre elles. L'animation squelettique
-                    travaille
-                    les
-                    parties en cinématique directe du squelette, où une configuration donnée des os correspond à une
-                    pose
-                    unique.
+                <p v-tr>
+                    L'objet à animer est représenté en deux parties : la surface de l'objet appelée mesh (maillage) et un
+                    ensemble hiérarchisé d'os interconnectés appelé squelette ou rig. Chaque os a une transformation
+                    tridimensionnelle (rotation, homothétie et translation) et éventuellement un os parent, formant un
+                    ensemble hiérarchisé où la transformation complète d'un os enfant est le produit de la transformation
+                    des os parents et de la sienne propre. Ainsi lorsque le fémur bouge, la jambe et le pied suivent le
+                    mouvement. Quand un objet est animé, ses os changent de transformation au cours du temps, sous le
+                    contrôle de l'animateur. Un squelette est composé de cinématique directe (en) et inverse qui
+                    interagissent entre elles. L'animation squelettique travaille les parties en cinématique directe du
+                    squelette, où une configuration donnée des os correspond à une pose unique.
                 </p>
-                <p>
-                    Un processus de maillage (skinning) associe chaque os du squelette à une portion de la peau de
-                    l'objet à
-                    animer,
-                    cependant une portion donnée de la peau peut être associée à plusieurs os, selon une pondération
+                <p v-tr>
+                    Un processus de maillage (skinning) associe chaque os du squelette à une portion de la peau de l'objet à
+                    animer, cependant une portion donnée de la peau peut être associée à plusieurs os, selon une pondération
                     précise.
+                </p>
+            </blockquote>
+            <blockquote cite="https://en.wikipedia.org/wiki/Skeletal_animation" v-else>
+                <p>Skeletal animation or rigging is a technique in computer animation in which a character (or other
+                    articulated object) is represented in two parts: a surface representation used to draw the character
+                    (called the mesh or skin) and a hierarchical set of interconnected parts (called bones, and collectively
+                    forming the skeleton or rig), a virtual armature used to animate (pose and keyframe) the mesh.[1] While
+                    this technique is often used to animate humans and other organic figures, it only serves to make the
+                    animation process more intuitive, and the same technique can be used to control the deformation of any
+                    object—such as a door, a spoon, a building, or a galaxy. When the animated object is more general than,
+                    for example, a humanoid character, the set of "bones" may not be hierarchical or interconnected, but
+                    simply represent a higher-level description of the motion of the part of mesh it is influencing.
+                </p>
+                <p>As described in an instructional article by Josh Petty: <br>
+
+                    Rigging is making our characters able to move. The process of rigging is we take that digital sculpture,
+                    and we start building the skeleton, the muscles, and we attach the skin to the character, and we also
+                    create a set of animation controls, which our animators use to push and pull the body around.
+                </p>
+                <p>
+                    This technique constructs a series of bones (which need not correspond to any real-world anatomical
+                    feature), sometimes also referred to as rigging in the noun sense. Each bone has a three-dimensional
+                    transformation from the default bind pose (which includes its position, scale and orientation), and an
+                    optional parent bone. The bones therefore form a hierarchy. The full transform of a child node is the
+                    product of its parent transform and its own transform. So moving a thigh-bone will move the lower leg
+                    too. As the character is animated, the bones change their transformation over time, under the influence
+                    of some animation controller. A rig is generally composed of both forward kinematics and inverse
+                    kinematics parts that may interact with each other. Skeletal animation is referring to the forward
+                    kinematics part of the rig, where a complete set of bone configurations identifies a unique pose.
+                </p>
+                <p>
+                    Each bone in the skeleton is associated with some portion of the character's visual representation (the
+                    mesh) in a process called skinning. In the most common case of a polygonal mesh character, the bone is
+                    associated with a group of vertices; for example, in a model of a human being, the bone for the thigh
+                    would be associated with the vertices making up the polygons in the model's thigh. Portions of the
+                    character's skin can normally be associated with multiple bones, each one having a scaling factors
+                    called vertex weights, or blend weights. The movement of skin near the joints of two bones, can
+                    therefore be influenced by both bones. In most state-of-the-art graphical engines, the skinning process
+                    is done on the GPU thanks to a shader program.
                 </p>
             </blockquote>
             <figcaption>—<cite>Wikipedia</cite></figcaption>
@@ -69,8 +81,15 @@
 
 
     <section>
-        <h2>Présentation de mon projet de fin d'étude </h2>
-        <p>
+        <h2 v-tr>Presentation of my graduation project|Présentation de mon projet de fin d'étude</h2>
+        <p v-tr>
+            As part of my studies, I was asked to work with a team to create a short film on the theme of " Not so stupid".
+            The artistic direction was free, while taking care however to respect the royalties and not to not to
+            plagiarize. So we went for a style inspired by Tim Burton's to bring a dark and terrifying to bring a dark and
+            terrifying atmosphere to our short film. Each person on the team had the opportunity to the opportunity to focus
+            on the areas that interested them the most. So I created created all the rigs for our film, plus I did the video
+            editing and the poster.
+            |
             Dans le cadre de mes études, j'ai été amenée à concevoir en équipe un court-métrage dont le thème était «
             Pas si bête ». La direction artistique était libre, en veillant cependant à respecter les droits d'auteur et
             ne pas faire de plagiat. Nous nous sommes donc dirigés vers un style inspiré de celui de Tim Burton pour
@@ -85,7 +104,7 @@
         allowfullscreen></iframe>
 
     <section>
-        <h2>Galerie</h2>
+        <h2 v-tr>Gallery|Galerie</h2>
         <div class="carousel">
             <div class="carousel-img">
                 <div :style="{ transform: `translateX(-${i * 100}%)` }">
@@ -107,35 +126,51 @@
     </section>
 
     <section>
-        <h2>Après mes études</h2>
-        <p>
+        <h2 v-tr>After my studies|Après mes études</h2>
+        <p v-tr>
+            Once I finished my studies I started to learn scripting in Python in order to create scripts in maya. So I
+            created two scripts :
+            |
             Une fois mes études finies j'ai commencé à apprendre le scripting en Python afin de créer des scripts dans
             maya. J'ai donc créé deux scripts :
         <ul>
-            <li>Un outil permettant de renommer les objets de manière efficace ainsi que de respecter les nomenclatures
+            <li v-tr>A tool that allows you to rename objects efficiently and to respect nomenclatures easily.
+                |
+                Un outil permettant de renommer les objets de manière efficace ainsi que de respecter les nomenclatures
                 facilement.</li>
         </ul>
         <div class="tools">
             <img src="../assets/img/rig/renamer2.webp" alt="Renamer">
             <div class="explanation">
                 <div class="speech-bubble">
-                    <p>Prefix : Ajoute un préfixe à tous les éléments séléctionnés.</p>
-                    <p>Suffix : Ajoute un suffixe à tous les éléments séléctionnés.</p>
+                    <p v-tr>Prefix: Adds a prefix to all selected elements.|Prefix : Ajoute un préfixe à tous les éléments
+                        séléctionnés.</p>
+                    <p v-tr>Suffix: Adds a suffix to all selected elements.|Suffix : Ajoute un suffixe à tous les éléments
+                        séléctionnés.</p>
                 </div>
                 <div class="speech-bubble">
-                    <p>Search for/Replace with : Permet de remplacer une partie du nom.</p>
+                    <p v-tr>Search for/Replace with : Allows to replace a part of the name.|Search for/Replace with : Permet
+                        de remplacer une partie du nom.</p>
                 </div>
                 <div class="speech-bubble">
-                    <p>Section permettant d'ajouter sur tous les éléments sélectionnés un suffixe prédéfini.</p>
+                    <p v-tr>Section for adding a predefined suffix to all selected elements.
+                        |
+                        Section permettant d'ajouter
+                        sur tous les éléments sélectionnés un suffixe prédéfini.</p>
                 </div>
                 <div class="speech-bubble">
-                    <p>Permet de renommer les éléments sélectionnés avec une numérotation en fonction du nombre d'éléments.
-                    </p>
+                    <p v-tr>Allows you to rename the selected elements with a numbering according to the number of number of
+                        elements.
+                        |
+                        Permet de renommer les éléments sélectionnés avec une numérotation en fonction du nombre
+                        d'éléments.</p>
                 </div>
             </div>
         </div>
         <ul>
-            <li>Un outil permettant de changer la forme des contrôleurs des rigs ainsi que leur couleur.</li>
+            <li v-tr>A tool to change the shape of the rig controllers and their color.
+                |
+                Un outil permettant de changer la forme des contrôleurs des rigs ainsi que leur couleur.</li>
         </ul>
         <div class="tools">
             <img src="../assets/img/rig/shapebox2.webp" alt="">
@@ -146,6 +181,7 @@
 
 <script setup>
 import { Transition } from 'vue';
+import {isFrench} from "../i18n"
 
 let i = $ref(0)
 function next() {

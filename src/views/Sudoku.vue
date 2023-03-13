@@ -27,8 +27,8 @@
                     </tr>
                 </table>
                 <div v-if="lost" class="lost-overlay">
-                    <div>You Lost</div>
-                    <button class="btn" @click="startSudoku">Retry</button>
+                    <div v-tr>You Lost|Vous avez perdu</div>
+                    <button v-tr class="btn" @click="startSudoku">Retry|Recommencer</button>
                 </div>
             </div>
         </div>
@@ -40,7 +40,7 @@
                 </button>
             </div>
             <button class="btn" @click="toggleMiniNumber">Notes {{ miniNumbersMode? "ON": "OFF" }}</button>
-            <button class="btn" @click="deleteNumber" style="margin-bottom: 5px">Delete</button>
+            <button v-tr class="btn" @click="deleteNumber" style="margin-bottom: 5px">Delete|Supprimer</button>
         </div>
     </div>
 </template>

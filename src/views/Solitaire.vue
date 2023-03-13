@@ -1,17 +1,17 @@
 <template>
     <div @mousemove="drag" @mouseup="dragStop" style="position: fixed; top: 0; bottom: 0; left: 0; right: 0;">
-        <section v-if="win" class="win">
-            You won !
-            <button class="btn" @click="startSolitaire">
-                <sl-icon name="arrow-clockwise"></sl-icon> Restart
+        <section v-tr v-if="win" class="win">
+            You won !|Vous avez gagné !
+            <button v-tr class="btn" @click="startSolitaire">
+                <sl-icon name="arrow-clockwise"></sl-icon> Restart|Recommencer
             </button>
         </section>
         <section class="actions">
-            <button class="btn" @click="undo">
-                <sl-icon name="arrow-bar-left"></sl-icon> Undo
+            <button v-tr class="btn" @click="undo">
+                <sl-icon name="arrow-bar-left"></sl-icon> Undo|Annuler
             </button>
-            <button class="btn" @click="startSolitaire">
-                <sl-icon name="arrow-clockwise"></sl-icon> Restart
+            <button v-tr class="btn" @click="startSolitaire">
+                <sl-icon name="arrow-clockwise"></sl-icon> Restart|Recommencer
             </button>
         </section>
         <section class="board" @drop="drop">
@@ -337,17 +337,41 @@ export default {
     height: 100%;
 }
 
+$ratio: calc(200px / 280px);
+$card-width: 125px;
+$card-height: calc($card-width / $ratio);
 .card-placeholder {
-    $ratio: calc(200px / 280px);
-    $card-width: 125px;
-    $card-height: calc($card-width / $ratio);
     width: $card-width;
     height: $card-height;
     margin: 20px;
     // border: 3px solid rgb(255, 255, 255);
     background: rgba(255, 255, 255, 0.7);
     position: relative;
-    border-radius: 7px;
+    border-radius: 13px;
+}
+
+.dragging {
+    position: fixed;
+    z-index: 1;
+    width: $card-width;
+    height: $card-height;
+    pointer-events: none;
+}
+
+@media screen and (max-width: 600px) {
+    $card-width: calc((100vw - 40px)/7 - 2*3px);
+    $card-height: calc($card-width / $ratio);
+
+    .card-placeholder {
+        margin: 3px;
+        width: $card-width;
+        height: $card-height;
+    }
+
+    .dragging {
+        width: $card-width;
+        height: $card-height;
+    }
 }
 
 .first-row {
@@ -452,4 +476,16 @@ button {
         font-size: 1.5rem;
     }
 }
+
+@media screen and (max-width: 600px) {
+    .actions {
+        bottom: 10px;
+        left: 10px;
+        top: initial;
+        right: 10px;
+        flex-direction: row;
+        justify-content: space-around;
+    }
+}
+
 </style>
