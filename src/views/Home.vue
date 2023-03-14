@@ -153,7 +153,7 @@
     }
 
     &.design {
-        background-image: url("../assets/img/design.png");
+        background-image: url("../assets/img/design.webp");
     }
 
     &.solitaire {
@@ -355,7 +355,10 @@ $shape-size: 300px;
     .btn-placeholder {
         position: relative !important;
     }
-
+    .design {
+        background-position: right;
+    
+    }
     .drawing {
         background-image: url("../assets/img/drawings_mobile.webp") !important;
     }
