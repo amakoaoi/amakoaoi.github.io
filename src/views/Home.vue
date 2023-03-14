@@ -142,6 +142,7 @@
         padding: 15px 30px;
         background: rgba(41, 31, 51, 0.5);
         backdrop-filter: blur(6px);
+        color: white;
     }
 
     &.drawing {
