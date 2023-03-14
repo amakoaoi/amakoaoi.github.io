@@ -355,10 +355,15 @@ $shape-size: 300px;
     .btn-placeholder {
         position: relative !important;
     }
+
     .design {
         background-position: right;
-    
     }
+
+    .solitaire {
+        background-image: url("../assets/img/sudoku.webp") !important;
+    }
+
     .drawing {
         background-image: url("../assets/img/drawings_mobile.webp") !important;
     }
