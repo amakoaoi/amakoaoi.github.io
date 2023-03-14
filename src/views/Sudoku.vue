@@ -2,8 +2,7 @@
     <div class="board">
         <div class="grid-lives">
             <div class="lives">
-                <img :class="{ lost: lives < i }" src="../assets/img/cards/heart.svg" alt="life" v-for="i in 3"
-                    :key="i">
+                <img :class="{ lost: lives < i }" src="../assets/img/cards/heart.svg" alt="life" v-for="i in 3" :key="i">
             </div>
 
             <div class="sudoku">
@@ -11,7 +10,7 @@
                     <tr v-for="row, i in sudoku" :key="i">
                         <td v-for="cell, j in row" :key="j" :style="caseStyle(i, j)" @click="selectCell(cell)">
                             <div v-if="cell.value"
-                                :class="{ selected: cell === selectedCell, 'mini-numbers': miniNumbersMode }">
+                                :class="{ selected: cell === selectedCell, 'mini-numbers': miniNumbersMode, highlighted: cell.value === highlightedValue }">
                                 <span :class="{ invalidNumber: cell.value !== sudokuSolution[cell.row][cell.column] }">
                                     {{ cell.value }}
                                 </span>
@@ -30,16 +29,20 @@
                     <div v-tr>You Lost|Vous avez perdu</div>
                     <button v-tr class="btn" @click="startSudoku">Retry|Recommencer</button>
                 </div>
+                <div v-if="win" class="lost-overlay">
+                    <div v-tr>You win|Vous avez gagné</div>
+                    <button v-tr class="btn" @click="startSudoku">New puzzle|Nouvelle grille</button>
+                </div>
             </div>
         </div>
 
         <div class="interface">
             <div class="btn-grid">
-                <button v-for="i in 9" :key="i" class="btn" @click="addNumber(i)">
+                <button v-for="i in 9" :key="i" class="btn" @click="addNumber(i)" :disabled="numbersCount[i] === 9">
                     {{ i }}
                 </button>
             </div>
-            <button class="btn" @click="toggleMiniNumber">Notes {{ miniNumbersMode? "ON": "OFF" }}</button>
+            <button class="btn" @click="toggleMiniNumber">Notes {{ miniNumbersMode ? "ON" : "OFF" }}</button>
             <button v-tr class="btn" @click="deleteNumber" style="margin-bottom: 5px">Delete|Supprimer</button>
         </div>
     </div>
@@ -55,6 +58,18 @@ let sudokuSolution = $ref([])
 
 let lives = $ref(3)
 let lost = $ref(false)
+let win = $ref(false)
+let numbersCount = {
+    1: 0,
+    2: 0,
+    3: 0,
+    4: 0,
+    5: 0,
+    6: 0,
+    7: 0,
+    8: 0,
+    9: 0,
+}
 
 let selectedCell = $ref(null)
 
@@ -64,6 +79,7 @@ function startSudoku() {
     let sudokuGeneratedSolution = sudokuGenerator.solvepuzzle(sudokuGenerated)
 
     lost = false
+    win = false
     lives = 3
 
     sudoku = []
@@ -83,7 +99,7 @@ function startSudoku() {
                     row: row,
                     column: column
                 })
-
+                numbersCount[sudoku[row][column].value]++
             } else {
                 sudoku[row].push({
                     value: null,
@@ -95,7 +111,6 @@ function startSudoku() {
             }
             sudokuSolution[row].push(sudokuGeneratedSolution[sudokuGeneratedIndex] + 1)
             sudokuGeneratedIndex += 1
-
         }
     }
 }
@@ -132,10 +147,42 @@ async function addNumber(number) {
         await nextTick()
         selectedCell.value = number
         if (selectedCell.value !== sudokuSolution[selectedCell.row][selectedCell.column]) {
-            if (lives !== 0)
+            if (lives !== 0) {
                 lives--
-            else
+                selectedCell.miniNumbers[selectedCell.value] = false
+            }
+            else {
                 lost = true
+            }     
+        } else {
+            selectedCell.lock = true
+            numbersCount[selectedCell.value]++
+            removeMiniNumbers()
+        }
+    }
+
+    for (let row = 0; row < 9; row++) {
+        for (let column = 0; column < 9; column++) {
+            if (sudokuSolution[row][column] !== sudoku[row][column].value) {
+                return
+            }
+        }
+    }
+    win = true
+}
+
+function removeMiniNumbers() {
+    for (let row = 0; row < 9; row++) {
+        sudoku[row][selectedCell.column].miniNumbers[selectedCell.value] = false
+    }
+    for (let column = 0; column < 9; column++) {
+        sudoku[selectedCell.row][column].miniNumbers[selectedCell.value] = false
+    }
+    const startCellRow = Math.floor(selectedCell.row / 3) * 3
+    const startCellColumn = Math.floor(selectedCell.column / 3) * 3
+    for (let i = 0; i < 3; i++) {
+        for (let j = 0; j < 3; j++) {
+            sudoku[startCellRow + i][startCellColumn + j].miniNumbers[selectedCell.value] = false
         }
     }
 }
@@ -165,9 +212,13 @@ onMounted(() => {
     })
 })
 
+let highlightedValue = $ref(null)
+
 function selectCell(cell) {
-    if (cell.lock)
+    if (cell.lock) {
+        highlightedValue = cell.value
         return
+    }
     selectedCell = cell
 }
 
@@ -205,6 +256,10 @@ function selectCell(cell) {
             }
         }
     }
+}
+
+.highlighted {
+    background-color: rgb(179, 166, 190);
 }
 
 @keyframes heartlost {
@@ -303,6 +358,7 @@ function selectCell(cell) {
             @media screen and (max-width: 1200px) {
                 font-size: 2rem;
             }
+
             width: calc(100% / 9);
             border: 1px solid black;
 
@@ -362,9 +418,11 @@ function selectCell(cell) {
         max-width: none;
         flex-direction: column;
     }
+
     .grid-lives {
         margin-left: 0;
     }
+
     .sudoku-grid {
         width: calc(100vw - 30px);
         height: calc(100vw - 30px);
@@ -381,7 +439,7 @@ function selectCell(cell) {
         min-width: none;
         width: calc(100% - 30px);
 
-        .btn{
+        .btn {
             padding: 15px;
             font-size: 1rem;
         }
@@ -391,7 +449,7 @@ function selectCell(cell) {
         font-size: 2rem;
 
         .btn {
-            font-size: 1.5rem;           
+            font-size: 1.5rem;
         }
     }
 }

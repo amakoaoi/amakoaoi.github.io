@@ -36,7 +36,7 @@
         transition: opacity 250ms;
     }
     
-    &:hover {
+    &:hover:not(:disabled) {
         &::after {
             opacity: 1;
         }
@@ -49,6 +49,8 @@
             opacity: 0.3;
         }
     }
-
+    &:disabled {
+        background: rgb(167, 167, 167);
+    }
 
 }
