@@ -1,17 +1,17 @@
 <template>
     <div @mousemove="drag" @mouseup="dragStop" style="position: fixed; top: 0; bottom: 0; left: 0; right: 0;">
-        <section v-tr v-if="win" class="win">
-            You won !|Vous avez gagné !
-            <button v-tr class="btn" @click="startSolitaire">
-                <sl-icon name="arrow-clockwise"></sl-icon> Restart|Recommencer
+        <section v-if="win" class="win">
+            <span v-tr>You won !|Vous avez gagné !</span>
+            <button class="btn" @click="startSolitaire">
+                <sl-icon name="arrow-clockwise"></sl-icon> <span v-tr>Restart|Recommencer</span>
             </button>
         </section>
         <section class="actions">
-            <button v-tr class="btn" @click="undo">
-                <sl-icon name="arrow-bar-left"></sl-icon> Undo|Annuler
+            <button class="btn" @click="undo">
+                <sl-icon name="arrow-bar-left"></sl-icon> <span v-tr>Undo|Annuler</span>
             </button>
-            <button v-tr class="btn" @click="startSolitaire">
-                <sl-icon name="arrow-clockwise"></sl-icon> Restart|Recommencer
+            <button class="btn" @click="startSolitaire">
+                <sl-icon name="arrow-clockwise"></sl-icon> <span v-tr>Restart|Recommencer</span>
             </button>
         </section>
         <section class="board" @drop="drop">

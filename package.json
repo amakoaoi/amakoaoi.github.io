@@ -10,7 +10,7 @@
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs --fix --ignore-path .gitignore"
   },
   "dependencies": {
-    "@shoelace-style/shoelace": "^2.0.0",
+    "@shoelace-style/shoelace": "^2.3.0",
     "@shoelace-style/vue-sl-model": "^1.0.1",
     "sudoku": "^0.0.3",
     "vue": "^3.2.45",
