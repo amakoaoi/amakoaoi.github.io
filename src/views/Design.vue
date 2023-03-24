@@ -54,9 +54,12 @@
             <EmailInput></EmailInput>
         </div>
     </section>
-    <section @mousemove="generateParticles($event)" style="height: 600px;">
+    
+    <section @mousemove="generateParticles($event)" 
+        @click="explodingParticles($event)" style="height: 600px; user-select: none;">
         <h2 v-tr>Glitters|Paillettes</h2>
-        <p v-tr>Hover over this section, we'll put some glitter in your lives.|Survolez cette section, on va mettre des paillettes dans vos vies.</p>
+        <p v-tr>Hover or click in this section, we'll put some glitters in your lives.|Survolez ou cliquez dans cette section, on va mettre des
+            paillettes dans vos vies.</p>
         <div v-for="particle in particles" :style="particle.position" class="particle-container">
             <div :class="{ particle: particle.start }" :style="particle.style"></div>
         </div>
@@ -90,7 +93,6 @@ for (let i = 0; i < 100; i++) {
         position: {
             top: 0,
             left: 0,
-
         },
         style: {
             backgroundImage: `radial-gradient(hsl(${hue}, 100%, 80%),
@@ -103,26 +105,38 @@ for (let i = 0; i < 100; i++) {
 let i = 0
 
 let wait = false
-function generateParticles(event) {
-    if (wait) {
+function generateParticles(event, waitParticles = true) {
+    if (wait && waitParticles) {
         return
     }
+    let particlesRange = waitParticles? 40 : 80
+    let particlesTop = waitParticles? 0 : -80
 
     particles[i].start = true
-    particles[i].position = {
-        top: event.clientY + getRandomInt(0, 40) + "px",
-        left: event.clientX + getRandomInt(-40, 40) + "px",
-    }
+
+    const y = getRandomInt(particlesTop, particlesRange)
+    const maxX = Math.sqrt(Math.pow(particlesRange, 2) - Math.pow(y, 2))
+    const x = getRandomInt(-maxX, maxX)
+    particles[i].position.top = event.clientY + y + "px"
+    particles[i].position.left = event.clientX + x + "px"
 
     const index = i
     setTimeout(() => particles[index].start = false, 1500)
 
-    wait = true
-    setTimeout(() => wait = false, 10)
+    if (waitParticles) {
+        wait = true
+        setTimeout(() => wait = false, 10)
+    }
     i++
 
     if (i >= 100) {
         i = 0
+    }
+}
+
+function explodingParticles(event) {
+    for (let i = 0; i < 15; i++) {
+        generateParticles(event, false)
     }
 }
 
