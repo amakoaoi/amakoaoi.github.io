@@ -156,6 +156,7 @@ async function addNumber(number) {
             }     
         } else {
             selectedCell.lock = true
+            selectedCell = null
             numbersCount[selectedCell.value]++
             removeMiniNumbers()
         }
