@@ -38,7 +38,7 @@
 
         <div class="interface">
             <div class="btn-grid">
-                <button v-for="i in 9" :key="i" class="btn" @click="addNumber(i)" :disabled="numbersCount[i] === 9">
+                <button v-for="i in 9" :key="i" class="btn" @click="addNumber(i)" :disabled="numbersCount[i] >= 9">
                     {{ i }}
                 </button>
             </div>
@@ -81,6 +81,18 @@ function startSudoku() {
     lost = false
     win = false
     lives = 3
+
+    numbersCount = {
+        1: 0,
+        2: 0,
+        3: 0,
+        4: 0,
+        5: 0,
+        6: 0,
+        7: 0,
+        8: 0,
+        9: 0,
+    }
 
     sudoku = []
     sudokuSolution = []
@@ -153,7 +165,7 @@ async function addNumber(number) {
             }
             else {
                 lost = true
-            }     
+            }
         } else {
             selectedCell.lock = true
             selectedCell = null
@@ -451,6 +463,13 @@ function selectCell(cell) {
 
         .btn {
             font-size: 1.5rem;
+        }
+    }
+
+    .mini-numbers {
+        td {
+            line-height: 0.3rem;
+            font-size: 0.6rem !important;
         }
     }
 }
